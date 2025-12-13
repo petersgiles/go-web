@@ -4,46 +4,59 @@ This application uses a federated identity approach where authentication is hand
 
 ## Architecture
 
-1. **Federated Identity**: Authentication is handled externally by a reverse proxy (nginx in development, could be AWS ALB, Azure Application Gateway, etc. in production)
+1. **Federated Identity**: Authentication is handled externally by a reverse proxy (nginx)
 2. **User Profile**: User profiles are stored in `data/users.json` and loaded by the application
 3. **Header-based Auth**: User identity is passed via HTTP headers (`X-User-Id`, `X-User-Email`)
+4. **Dev Default**: In development, nginx always injects a default dev user
 
 ## Development Setup
 
-### Testing with Different Users
-
-Use `make dev-with-auth` to start the application with nginx proxy that injects user headers:
-
-```bash
-make dev-with-auth
-```
-
-This starts:
-- Frontend on port 5173
-- Backend on port 8080
-- Nginx proxy on port 3001 (injecting admin user headers)
-
-Access the app at http://localhost:3001
-
-### Testing Different Users
-
-Edit `nginx.conf` to change the `X-User-Id` and `X-User-Email` headers to test different users:
-
-Available test users (from `data/users.json`):
-- **Admin User**: `user-001` / `admin@example.com`
-- **John Doe**: `user-002` / `john.doe@example.com`
-- **Jane Smith**: `user-003` / `jane.smith@example.com`
-- **Bob Wilson**: `user-004` / `bob.wilson@example.com`
-
-### Without Auth Proxy
-
-For basic development without authentication:
+Start the development environment:
 
 ```bash
 make dev
 ```
 
-In this mode, `currentUser` query will return `null`.
+This starts (via Docker Compose):
+- Frontend on port 5173
+- Backend on port 8080
+- Nginx proxy on port 3001 (with dev user auth)
+
+**Access the app at http://localhost:3001** (nginx proxies and adds auth headers)
+
+Default logged-in user: **Dev User** (`dev-user@example.com`)
+
+To stop:
+```bash
+make dev-stop
+```
+
+### Testing Different Users
+
+Edit `nginx.conf` and change the `X-User-Id` header to test different users:
+
+Available test users (from `data/users.json`):
+- **Dev User** (default): `dev-user` / `dev-user@example.com`
+- **Admin User**: `user-001` / `admin@example.com`
+- **John Doe**: `user-002` / `john.doe@example.com`
+- **Jane Smith**: `user-003` / `jane.smith@example.com`
+- **Bob Wilson**: `user-004` / `bob.wilson@example.com`
+
+Then restart the proxy:
+
+```bash
+docker-compose restart nginx-proxy
+```
+
+### Development Without Docker
+
+To run backend/frontend directly (for faster iteration, no auth):
+
+```bash
+make backend  # or make frontend
+```
+
+Without nginx, `currentUser` returns `null`.
 
 ## GraphQL API
 

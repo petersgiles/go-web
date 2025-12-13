@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  # Dev container service (used when opening in VS Code)
+  devcontainer:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - .:/app:cached
+    command: sleep infinity
+    environment:
+      - DATA_DIR=/app/data
+    network_mode: host
+    user: vscode
+
+  # Nginx proxy for authentication (runs automatically with devcontainer)
+  nginx-proxy:
+    image: nginx:alpine
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    network_mode: host
+    restart: unless-stopped

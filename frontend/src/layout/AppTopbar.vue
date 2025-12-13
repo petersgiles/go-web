@@ -1,6 +1,7 @@
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
 import AppConfigurator from './AppConfigurator.vue';
+import ProfileMenu from '@/components/ProfileMenu.vue';
 
 const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
 </script>
@@ -68,10 +69,24 @@ const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
                         <i class="pi pi-inbox"></i>
                         <span>Messages</span>
                     </button>
-                    <button type="button" class="layout-topbar-action">
-                        <i class="pi pi-user"></i>
-                        <span>Profile</span>
-                    </button>
+                    <div class="relative">
+                        <button 
+                            type="button" 
+                            class="layout-topbar-action"
+                            v-styleclass="{ 
+                                selector: '@next', 
+                                enterFromClass: 'hidden', 
+                                enterActiveClass: 'p-anchored-overlay-enter-active', 
+                                leaveToClass: 'hidden', 
+                                leaveActiveClass: 'p-anchored-overlay-leave-active', 
+                                hideOnOutsideClick: true 
+                            }"
+                        >
+                            <i class="pi pi-user"></i>
+                            <span>Profile</span>
+                        </button>
+                        <ProfileMenu />
+                    </div>
                 </div>
             </div>
         </div>

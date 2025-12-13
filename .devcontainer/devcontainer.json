@@ -1,6 +1,8 @@
 {
   "name": "Vue + Go + GraphQL",
-  "image": "mcr.microsoft.com/devcontainers/go:1.25-bookworm",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "devcontainer",
+  "workspaceFolder": "/app",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -10,7 +12,6 @@
         "GraphQL.vscode-graphql-syntax",
         "ms-azuretools.vscode-docker"
       ],
-
       "settings": {
         "go.toolsManagement.checkForUpdates": "local",
         "go.useLanguageServer": true,
@@ -18,15 +19,7 @@
       }
     }
   },
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "latest"
-    }
-  },
-  "forwardPorts": [3000, 8080],
+  "forwardPorts": [3001, 5173, 8080],
   "remoteUser": "vscode",
-  "containerEnv": {
-    "DATA_DIR": "${containerWorkspaceFolder}/data"
-  },
   "postCreateCommand": "make install"
 }

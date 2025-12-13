@@ -1,9 +1,9 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core'
 
 // HTTP connection to the API
+// Use relative URL to go through nginx proxy which adds auth headers
 const httpLink = new HttpLink({
-  // You should use an absolute URL here
-  uri: 'http://localhost:8080/query',
+  uri: '/query',
 })
 
 // Cache implementation

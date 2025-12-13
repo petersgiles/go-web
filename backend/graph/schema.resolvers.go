@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/pete/go-web/graph/model"
+	"github.com/pete/go-web/middleware"
 )
 
 // Products is the resolver for the products field.
@@ -89,7 +90,7 @@ func (r *queryResolver) Countries(ctx context.Context) ([]*model.Country, error)
 // CurrentUser is the resolver for the currentUser field.
 func (r *queryResolver) CurrentUser(ctx context.Context) (*model.User, error) {
 	// Extract user from context (set by auth middleware)
-	user, ok := ctx.Value("user").(*model.User)
+	user, ok := ctx.Value(middleware.UserContextKey).(*model.User)
 	if !ok {
 		// No authenticated user
 		return nil, nil

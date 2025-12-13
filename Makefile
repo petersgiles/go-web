@@ -1,28 +1,21 @@
-.PHONY: dev dev-with-auth frontend backend install clean build generate docker-build docker-run docker-stop nginx-proxy help
+.PHONY: dev dev-stop frontend backend install clean build generate docker-build docker-run docker-stop help
 
-# Run both frontend and backend concurrently
+# Run development environment with authentication
 dev:
-	@echo "Starting frontend and backend..."
-	@trap 'kill 0' SIGINT; \
-	cd frontend && npm run dev & \
+	@echo "Starting development environment..."
+	@echo "Frontend: http://localhost:5173"
+	@echo "Backend: http://localhost:8080"
+	@echo "With Auth: http://localhost:3001 (nginx proxy should already be running)"
+	@echo "Default user: Dev User (dev-user@example.com)"
+	@cd frontend && npm run dev & \
 	export DATA_DIR="$$(pwd)/data" && cd backend && air & \
 	wait
 
-# Run frontend and backend with nginx proxy for auth testing
-dev-with-auth:
-	@echo "Starting frontend, backend, and nginx proxy..."
-	@echo "Access the app at http://localhost:3001 (as admin user)"
-	@trap 'kill 0' SIGINT; \
-	cd frontend && npm run dev & \
-	export DATA_DIR="$$(pwd)/data" && cd backend && air & \
-	nginx -c "$$(pwd)/nginx.conf" -g 'daemon off;' & \
-	wait
-
-# Run nginx proxy (requires frontend and backend to be running)
-nginx-proxy:
-	@echo "Starting nginx proxy on port 3001..."
-	@echo "Make sure frontend and backend are running first!"
-	@nginx -c "$$(pwd)/nginx.conf" -g 'daemon off;'
+# Stop development environment
+dev-stop:
+	@echo "Stopping frontend and backend..."
+	@pkill -f "vite" || true
+	@pkill -f "air" || true
 
 # Run frontend dev server
 frontend:
@@ -89,11 +82,10 @@ docker-stop:
 # Show help
 help:
 	@echo "Available commands:"
-	@echo "  make dev                 - Run both frontend and backend concurrently"
-	@echo "  make dev-with-auth       - Run frontend, backend, and nginx proxy for auth testing"
-	@echo "  make nginx-proxy         - Run nginx proxy (requires frontend/backend running)"
-	@echo "  make frontend            - Run only the frontend dev server"
-	@echo "  make backend             - Run only the backend with live reload"
+	@echo "  make dev                 - Run development environment (Docker Compose with auth)"
+	@echo "  make dev-stop            - Stop development environment"
+	@echo "  make frontend            - Run only the frontend dev server (no auth)"
+	@echo "  make backend             - Run only the backend with live reload (no auth)"
 	@echo "  make install             - Install dependencies for both projects"
 	@echo "  make build               - Build both frontend and backend"
 	@echo "  make generate            - Regenerate GraphQL code from schema"
