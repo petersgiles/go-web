@@ -27,5 +27,6 @@
   "remoteUser": "vscode",
   "containerEnv": {
     "DATA_DIR": "${containerWorkspaceFolder}/data"
-  }
+  },
+  "postCreateCommand": "make install"
 }

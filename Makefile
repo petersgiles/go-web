@@ -5,7 +5,7 @@ dev:
 	@echo "Starting frontend and backend..."
 	@trap 'kill 0' SIGINT; \
 	cd frontend && npm run dev & \
-	cd backend && air & \
+	export DATA_DIR="$$(pwd)/data" && cd backend && air & \
 	wait
 
 # Run frontend dev server
@@ -16,7 +16,7 @@ frontend:
 # Run backend with live reload
 backend:
 	@echo "Starting Go backend with Air..."
-	@if [ -f .env ]; then export $$(cat .env | grep -v '^#' | xargs); fi && cd backend && air
+	@if [ -f .env ]; then export $$(cat .env | grep -v '^#' | xargs); fi && export DATA_DIR="$$(pwd)/data" && cd backend && air
 
 # Install dependencies for both projects
 install:
@@ -24,6 +24,8 @@ install:
 	@cd frontend && npm install
 	@echo "Installing backend dependencies..."
 	@cd backend && go mod tidy
+	@echo "Installing air for live reloading..."
+	@go install github.com/air-verse/air@latest
 
 # Clean build artifacts
 clean:
