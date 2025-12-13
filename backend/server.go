@@ -11,6 +11,8 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/pete/go-web/graph"
+	"github.com/pete/go-web/middleware"
+	"github.com/pete/go-web/service"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
@@ -20,6 +22,12 @@ func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
+	}
+
+	// Initialize user service
+	userService, err := service.NewUserService()
+	if err != nil {
+		log.Fatalf("Failed to initialize user service: %v", err)
 	}
 
 	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
@@ -40,7 +48,7 @@ func main() {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Access-Control-Allow-Origin", "*")
 			w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+			w.Header().Set("Access-Control-Allow-Headers", "Content-Type, X-User-Id, X-User-Email")
 
 			if r.Method == "OPTIONS" {
 				w.WriteHeader(http.StatusOK)
@@ -51,11 +59,14 @@ func main() {
 		})
 	}
 
+	// Auth middleware
+	authMiddleware := middleware.AuthMiddleware(userService)
+
 	// Serve static files from public directory in production
 	// Fall back to index.html for client-side routing
 	fileServer := http.FileServer(http.Dir("./public"))
 
-	http.Handle("/query", corsMiddleware(srv))
+	http.Handle("/query", authMiddleware(corsMiddleware(srv)))
 	http.Handle("/playground", playground.Handler("GraphQL playground", "/query"))
 
 	// Serve static files and SPA fallback

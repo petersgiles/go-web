@@ -1,0 +1,38 @@
+[
+  {
+    "id": "user-001",
+    "email": "admin@example.com",
+    "name": "Admin User",
+    "roles": ["admin", "user"],
+    "avatar": "https://i.pravatar.cc/150?img=1",
+    "department": "Engineering",
+    "permissions": ["read", "write", "delete", "admin"]
+  },
+  {
+    "id": "user-002",
+    "email": "john.doe@example.com",
+    "name": "John Doe",
+    "roles": ["user"],
+    "avatar": "https://i.pravatar.cc/150?img=2",
+    "department": "Sales",
+    "permissions": ["read", "write"]
+  },
+  {
+    "id": "user-003",
+    "email": "jane.smith@example.com",
+    "name": "Jane Smith",
+    "roles": ["manager", "user"],
+    "avatar": "https://i.pravatar.cc/150?img=3",
+    "department": "Marketing",
+    "permissions": ["read", "write", "manage"]
+  },
+  {
+    "id": "user-004",
+    "email": "bob.wilson@example.com",
+    "name": "Bob Wilson",
+    "roles": ["user"],
+    "avatar": "https://i.pravatar.cc/150?img=4",
+    "department": "Engineering",
+    "permissions": ["read"]
+  }
+]

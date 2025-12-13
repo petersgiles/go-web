@@ -67,6 +67,16 @@ type ProductWithOrders {
   orders: [Order!]
 }
 
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  roles: [String!]!
+  avatar: String
+  department: String
+  permissions: [String!]!
+}
+
 type Query {
   products: [Product!]!
   productsSmall: [Product!]!
@@ -76,4 +86,5 @@ type Query {
   customersMedium: [Customer!]!
   photos: [Photo!]!
   countries: [Country!]!
+  currentUser: User
 }

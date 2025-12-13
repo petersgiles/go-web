@@ -86,6 +86,17 @@ func (r *queryResolver) Countries(ctx context.Context) ([]*model.Country, error)
 	return countries, nil
 }
 
+// CurrentUser is the resolver for the currentUser field.
+func (r *queryResolver) CurrentUser(ctx context.Context) (*model.User, error) {
+	// Extract user from context (set by auth middleware)
+	user, ok := ctx.Value("user").(*model.User)
+	if !ok {
+		// No authenticated user
+		return nil, nil
+	}
+	return user, nil
+}
+
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 

@@ -71,3 +71,13 @@ type Representative struct {
 	Name  string  `json:"name"`
 	Image *string `json:"image,omitempty"`
 }
+
+type User struct {
+	ID          string   `json:"id"`
+	Email       string   `json:"email"`
+	Name        string   `json:"name"`
+	Roles       []string `json:"roles"`
+	Avatar      *string  `json:"avatar,omitempty"`
+	Department  *string  `json:"department,omitempty"`
+	Permissions []string `json:"permissions"`
+}
