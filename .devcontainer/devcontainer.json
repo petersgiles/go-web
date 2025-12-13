@@ -24,5 +24,8 @@
     }
   },
   "forwardPorts": [3000, 8080],
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "containerEnv": {
+    "DATA_DIR": "${containerWorkspaceFolder}/data"
+  }
 }

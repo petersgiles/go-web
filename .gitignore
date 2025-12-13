@@ -32,6 +32,13 @@ frontend/dist-ssr/
 frontend/.vite/
 *.local
 
+# Production static files
+backend/public/
+
+# Environment variables
+.env
+.env.local
+
 # OS files
 .DS_Store
 Thumbs.db

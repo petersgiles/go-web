@@ -51,9 +51,34 @@ func main() {
 		})
 	}
 
-	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", corsMiddleware(srv))
+	// Serve static files from public directory in production
+	// Fall back to index.html for client-side routing
+	fileServer := http.FileServer(http.Dir("./public"))
 
-	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
+	http.Handle("/query", corsMiddleware(srv))
+	http.Handle("/playground", playground.Handler("GraphQL playground", "/query"))
+
+	// Serve static files and SPA fallback
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// If in development mode (no public dir), show playground
+		if _, err := os.Stat("./public"); os.IsNotExist(err) {
+			playground.Handler("GraphQL playground", "/query").ServeHTTP(w, r)
+			return
+		}
+
+		// Check if the requested file exists
+		path := "./public" + r.URL.Path
+		if _, err := os.Stat(path); os.IsNotExist(err) {
+			// File doesn't exist, serve index.html for SPA routing
+			http.ServeFile(w, r, "./public/index.html")
+			return
+		}
+
+		// File exists, serve it
+		fileServer.ServeHTTP(w, r)
+	})
+
+	log.Printf("Server starting on http://localhost:%s", port)
+	log.Printf("GraphQL playground: http://localhost:%s/playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
