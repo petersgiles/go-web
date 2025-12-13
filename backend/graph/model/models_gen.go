@@ -2,25 +2,72 @@
 
 package model
 
-type Mutation struct {
+type Country struct {
+	Name string `json:"name"`
+	Code string `json:"code"`
 }
 
-type NewTodo struct {
-	Text   string `json:"text"`
-	UserID string `json:"userId"`
+type Customer struct {
+	ID             string          `json:"id"`
+	Name           string          `json:"name"`
+	Country        *Country        `json:"country,omitempty"`
+	Company        *string         `json:"company,omitempty"`
+	Date           *string         `json:"date,omitempty"`
+	Status         *string         `json:"status,omitempty"`
+	Verified       *bool           `json:"verified,omitempty"`
+	Activity       *int32          `json:"activity,omitempty"`
+	Representative *Representative `json:"representative,omitempty"`
+	Balance        *int32          `json:"balance,omitempty"`
+}
+
+type Order struct {
+	ID          string  `json:"id"`
+	ProductCode string  `json:"productCode"`
+	Date        string  `json:"date"`
+	Amount      float64 `json:"amount"`
+	Quantity    int32   `json:"quantity"`
+	Customer    string  `json:"customer"`
+	Status      string  `json:"status"`
+}
+
+type Photo struct {
+	Title             string `json:"title"`
+	ItemImageSrc      string `json:"itemImageSrc"`
+	ThumbnailImageSrc string `json:"thumbnailImageSrc"`
+	Alt               string `json:"alt"`
+}
+
+type Product struct {
+	ID              string  `json:"id"`
+	Code            string  `json:"code"`
+	Name            string  `json:"name"`
+	Description     *string `json:"description,omitempty"`
+	Image           *string `json:"image,omitempty"`
+	Price           float64 `json:"price"`
+	Category        *string `json:"category,omitempty"`
+	Quantity        int32   `json:"quantity"`
+	InventoryStatus *string `json:"inventoryStatus,omitempty"`
+	Rating          *int32  `json:"rating,omitempty"`
+}
+
+type ProductWithOrders struct {
+	ID              string   `json:"id"`
+	Code            string   `json:"code"`
+	Name            string   `json:"name"`
+	Description     *string  `json:"description,omitempty"`
+	Image           *string  `json:"image,omitempty"`
+	Price           float64  `json:"price"`
+	Category        *string  `json:"category,omitempty"`
+	Quantity        int32    `json:"quantity"`
+	InventoryStatus *string  `json:"inventoryStatus,omitempty"`
+	Rating          *int32   `json:"rating,omitempty"`
+	Orders          []*Order `json:"orders,omitempty"`
 }
 
 type Query struct {
 }
 
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
-}
-
-type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+type Representative struct {
+	Name  string  `json:"name"`
+	Image *string `json:"image,omitempty"`
 }

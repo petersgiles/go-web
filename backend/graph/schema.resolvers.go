@@ -7,26 +7,86 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/pete/go-web/graph/model"
 )
 
-// CreateTodo is the resolver for the createTodo field.
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+// Products is the resolver for the products field.
+func (r *queryResolver) Products(ctx context.Context) ([]*model.Product, error) {
+	var products []*model.Product
+	if err := loadJSONData("products.json", &products); err != nil {
+		return nil, err
+	}
+	return products, nil
 }
 
-// Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
+// ProductsSmall is the resolver for the productsSmall field.
+func (r *queryResolver) ProductsSmall(ctx context.Context) ([]*model.Product, error) {
+	var products []*model.Product
+	if err := loadJSONData("products-small.json", &products); err != nil {
+		return nil, err
+	}
+	return products, nil
 }
 
-// Mutation returns MutationResolver implementation.
-func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
+// ProductsWithOrders is the resolver for the productsWithOrders field.
+func (r *queryResolver) ProductsWithOrders(ctx context.Context) ([]*model.ProductWithOrders, error) {
+	// Load the data with a wrapper object
+	var wrapper struct {
+		Data []*model.ProductWithOrders `json:"data"`
+	}
+	if err := loadJSONData("products-orders-small.json", &wrapper); err != nil {
+		return nil, err
+	}
+	return wrapper.Data, nil
+}
+
+// Customers is the resolver for the customers field.
+func (r *queryResolver) Customers(ctx context.Context) ([]*model.Customer, error) {
+	var customers []*model.Customer
+	if err := loadJSONData("customers-medium.json", &customers); err != nil {
+		return nil, err
+	}
+	return customers, nil
+}
+
+// CustomersLarge is the resolver for the customersLarge field.
+func (r *queryResolver) CustomersLarge(ctx context.Context) ([]*model.Customer, error) {
+	var customers []*model.Customer
+	if err := loadJSONData("customers-large.json", &customers); err != nil {
+		return nil, err
+	}
+	return customers, nil
+}
+
+// CustomersMedium is the resolver for the customersMedium field.
+func (r *queryResolver) CustomersMedium(ctx context.Context) ([]*model.Customer, error) {
+	var customers []*model.Customer
+	if err := loadJSONData("customers-medium.json", &customers); err != nil {
+		return nil, err
+	}
+	return customers, nil
+}
+
+// Photos is the resolver for the photos field.
+func (r *queryResolver) Photos(ctx context.Context) ([]*model.Photo, error) {
+	var photos []*model.Photo
+	if err := loadJSONData("photos.json", &photos); err != nil {
+		return nil, err
+	}
+	return photos, nil
+}
+
+// Countries is the resolver for the countries field.
+func (r *queryResolver) Countries(ctx context.Context) ([]*model.Country, error) {
+	var countries []*model.Country
+	if err := loadJSONData("countries.json", &countries); err != nil {
+		return nil, err
+	}
+	return countries, nil
+}
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
-type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

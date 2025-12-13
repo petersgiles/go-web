@@ -1,28 +1,79 @@
-# GraphQL schema example
-#
-# https://gqlgen.com/getting-started/
+# GraphQL schema for Go Web application
 
-type Todo {
+type Product {
   id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
+  code: String!
+  name: String!
+  description: String
+  image: String
+  price: Float!
+  category: String
+  quantity: Int!
+  inventoryStatus: String
+  rating: Int
 }
 
-type User {
+type Customer {
   id: ID!
   name: String!
+  country: Country
+  company: String
+  date: String
+  status: String
+  verified: Boolean
+  activity: Int
+  representative: Representative
+  balance: Int
+}
+
+type Country {
+  name: String!
+  code: String!
+}
+
+type Representative {
+  name: String!
+  image: String
+}
+
+type Photo {
+  title: String!
+  itemImageSrc: String!
+  thumbnailImageSrc: String!
+  alt: String!
+}
+
+type Order {
+  id: ID!
+  productCode: String!
+  date: String!
+  amount: Float!
+  quantity: Int!
+  customer: String!
+  status: String!
+}
+
+type ProductWithOrders {
+  id: ID!
+  code: String!
+  name: String!
+  description: String
+  image: String
+  price: Float!
+  category: String
+  quantity: Int!
+  inventoryStatus: String
+  rating: Int
+  orders: [Order!]
 }
 
 type Query {
-  todos: [Todo!]!
-}
-
-input NewTodo {
-  text: String!
-  userId: String!
-}
-
-type Mutation {
-  createTodo(input: NewTodo!): Todo!
+  products: [Product!]!
+  productsSmall: [Product!]!
+  productsWithOrders: [ProductWithOrders!]!
+  customers: [Customer!]!
+  customersLarge: [Customer!]!
+  customersMedium: [Customer!]!
+  photos: [Photo!]!
+  countries: [Country!]!
 }
