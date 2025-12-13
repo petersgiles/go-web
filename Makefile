@@ -3,7 +3,10 @@
 # Run both frontend and backend concurrently
 dev:
 	@echo "Starting frontend and backend..."
-	@make -j2 frontend backend
+	@trap 'kill 0' SIGINT; \
+	cd frontend && npm run dev & \
+	cd backend && air & \
+	wait
 
 # Run frontend dev server
 frontend:
