@@ -10,7 +10,8 @@
         "Vue.volar",
         "GraphQL.vscode-graphql",
         "GraphQL.vscode-graphql-syntax",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "myriad-dreamin.tinymist"
       ],
       "settings": {
         "go.toolsManagement.checkForUpdates": "local",
@@ -19,7 +20,6 @@
       }
     }
   },
-  "forwardPorts": [3001, 5173, 8080],
   "remoteUser": "vscode",
   "postCreateCommand": "make install"
 }
