@@ -31,7 +31,7 @@ const { toggleMenu, toggleDarkMode, isDarkTheme } = useLayout();
                     </g>
                 </svg>
 
-                <span>SAKAI</span>
+                <span>Cognitive Advantage</span>
             </router-link>
         </div>
 

@@ -87,4 +87,5 @@ type Query {
   photos: [Photo!]!
   countries: [Country!]!
   currentUser: User
+  users: [User!]!
 }

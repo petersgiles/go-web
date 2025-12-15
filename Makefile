@@ -1,4 +1,4 @@
-.PHONY: dev dev-stop frontend backend install clean build generate docker-build docker-run docker-stop help
+ .PHONY: dev dev-stop frontend backend install clean build generate docker-build docker-run docker-stop help
 
 # Run development environment with authentication
 dev:

@@ -98,6 +98,15 @@ func (r *queryResolver) CurrentUser(ctx context.Context) (*model.User, error) {
 	return user, nil
 }
 
+// Users is the resolver for the users field.
+func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+	var users []*model.User
+	if err := loadJSONData("users.json", &users); err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 

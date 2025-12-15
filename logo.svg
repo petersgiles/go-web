@@ -1,0 +1,12 @@
+<svg viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .cyan-fill { fill: #1fb5d6; }
+    </style>
+  </defs>
+  
+  <!-- Pointy-top hexagon with bottom segments removed -->
+  <polygon points="400,200 520,280 520,440 280,440 280,280" class="cyan-fill"/>
+</svg>
+</svg>
+</svg>
